@@ -1,19 +1,26 @@
 (function() {
-    var argvUtils = require('./argvUtils')
-    var logger = require('./logger')
-    var game = require('./game').new(3)
+
+    /*
+        GLOBAL VARIABLES
+
+        Every "import" should be here.
+    */
+    ArgvUtils = require('./game/argvUtils')
+    logger = require('./game/logger')
+    Game = require('./game/game')
+    var game = game.new(3)
 
     logger.l('\n\n\nWelcome to Annelida.io!\n')
 
     /*
-        inicia o servidor
+        Starts the server up
     */
     function startServer() {
         logger.l('...starting server')
         var WebSocketServer = require('ws').Server
         var wss = new WebSocketServer({port:8080})
 
-        //acionado quando conexão com cliente for estabelecida
+        //action on client connect
         wss.on('connection', function(ws) {
             registerClient(ws)
             ws.on('message', onMessageReceived)
@@ -23,7 +30,7 @@
     }
 
     /*
-        Registra o cliente
+        Registry a client
     */
     function registerClient(client) {
         logger.l('...adding client '+client.address())
@@ -31,7 +38,7 @@
     }
 
     /*
-        Processa mensagem enviada pelo cliente
+        Process message sent by client.
     */
     function onMessageReceived(message) {
         console.log('received: %s', message)
@@ -39,15 +46,19 @@
 
     /*
         função a ser executada quando aplicação estiver em modo de depuração
+
     */
     function doWhenDebug() {
-        logger.d('...printing arguments')
-        argvUtils.printArgs()
+        logger.d('>>> ARGUMENTS >>>\n')
+        ArgvUtils.printArgs()
+        logger.d('\n<<< ARGUMENTS <<<\n')
         //setTimeout(function() {console.log('yo!')}, 2000)
-        logger.l(game.board)
+        logger.d('>>> BOARD >>>\n')
+        logger.d(game.board)
+        logger.d('\n<<< BOARD <<<\n')
     }
 
-    if (argvUtils.isDebug()) {
+    if (ArgvUtils.isDebug()) {
         doWhenDebug()
     }
 

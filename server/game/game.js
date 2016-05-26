@@ -1,6 +1,7 @@
 (function() {
 
     /*
+        Generates a pseudo-multidimensional array representing the game's board
         Gera um vetor pseudo multidimensional que representa o tabuleiro do jogo
     */
     function genBoard(size) {
@@ -18,9 +19,15 @@
 
     module.exports = {
         new: function(size){
-            if (!size) {
-                size = 20
+
+            if (typeof size !== 'number') {
+                throw 'Size must be a number'
             }
+
+            if (size < 1) {
+                throw 'Size must be greater than 0'
+            }
+
             return new Game(size)
         }
     }

@@ -1,2 +1,2 @@
 # annelida.io
-Jogo de snake cretino
+Jogo de snake cretino / lousy snake game
